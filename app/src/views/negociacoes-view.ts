@@ -17,9 +17,9 @@ export default class NegociacoesView extends View<Negociacoes> {
         ${model.lista().map(negociacao => (
           `
           <tr>
-            <td>${this.formatar(negociacao.data)}</td>
+            <td>${this.formatarData(negociacao.data)}</td>
             <td>${negociacao.quantidade}</td>
-            <td>${negociacao.valor}</td>
+            <td>${this.formatarValor(negociacao.valor)}</td>
           </tr>
           `
         )).join('')}
@@ -28,9 +28,16 @@ export default class NegociacoesView extends View<Negociacoes> {
     `;
   }
 
-  private formatar(data: Date): string {
+  private formatarData(data: Date): string {
     return new Intl.DateTimeFormat()
       .format(data);
+  }
+
+  private formatarValor(valor: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(valor);
   }
 
 }
