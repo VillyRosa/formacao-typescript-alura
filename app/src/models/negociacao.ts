@@ -1,4 +1,6 @@
-export default class Negociacao {
+import { IModelo } from "../interfaces/modelo.js";
+
+export default class Negociacao implements IModelo<Negociacao> {
   constructor(
     private _data: Date,
     public readonly quantidade: number,
@@ -12,6 +14,20 @@ export default class Negociacao {
 
   get volume(): number {
     return this.quantidade * this.valor;
+  }
+
+  public paraTexto(): string {
+    return `
+      Data: ${this.data},
+      Quantidade: ${this.quantidade},
+      Valor: ${this.valor}
+    `;
+  }
+
+  public ehIgual(negociacao: Negociacao): boolean {
+    return this.data.getDate() === negociacao.data.getDate()
+        && this.data.getMonth() === negociacao.data.getMonth()
+        && this.data.getFullYear() === negociacao.data.getFullYear();
   }
 
   public static criaDe(dataString: string, quantidadeString: string, valorString: string): Negociacao {
